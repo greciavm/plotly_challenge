@@ -4,11 +4,6 @@ function init() {
     d3.json("samples.json").then((bbdata) => {
         console.log(bbdata);
 
-        // var names = bbdata.names;
-        // var optionselected = names[0];
-
-        // getbbdata(optionselected)
-
     });
 };
 

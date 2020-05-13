@@ -36,6 +36,7 @@ function getbbdata(optionselected) {
         var filtereddata = bbdata.samples.filter(row => row.id === optionselected);
         console.log(filtereddata)
         var values = filtereddata[0].sample_values;
+        console.log(values)
         var OTU_ids = filtereddata[0].otu_ids;
         var OTU_labels = filtereddata[0].otu_labels;
     
@@ -105,8 +106,8 @@ function getbbdata(optionselected) {
     
         panel_body.html("");
     
-        Object.entries(demo_info).forEach(([k, v]) => {
-            panel_body.append("p").text(`${k}:${v}`)
+        Object.entries(demo_info).forEach(([key, value]) => {
+            panel_body.append("p").text(`${key}: ${value}`)
         });
     
     });
@@ -114,4 +115,3 @@ function getbbdata(optionselected) {
 };
 
 init();
-

@@ -4,14 +4,14 @@ function init() {
     d3.json("samples.json").then((bbdata) => {
         console.log(bbdata);
 
-        var names = bbdata.names;
-        var optionselected = names[0];
+        // var names = bbdata.names;
+        // var optionselected = names[0];
 
-        getbbdata(optionselected)
+        // getbbdata(optionselected)
 
     });
 };
-init();
+
 
 // This function is called when a dropdown menu item is selected
 function dropdown() {
@@ -117,4 +117,6 @@ function getbbdata(optionselected) {
     });
 
 };
+
+init();
 

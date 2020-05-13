@@ -3,17 +3,23 @@ function init() {
 
     d3.json("samples.json").then((bbdata) => {
         console.log(bbdata);
- 
+
+        var names = bbdata.names;
+        var optionselected = names[0];
+
+        getbbdata(optionselected)
+
     });
 };
+init();
 
 // This function is called when a dropdown menu item is selected
 function dropdown() {
 
     d3.json("samples.json").then((bbdata) => {
+        var names = bbdata.names;
         console.log(bbdata);
         var dropdownoptions = d3.select("#selDataset");
-        var names = bbdata.names;
         var option;
         for (var i = 0; i < names.length; i++) {
             option = dropdownoptions.append("option").text(names[i]);
@@ -25,29 +31,29 @@ dropdown();
 
 function optionChanged(optionselected) {
     getbbdata(optionselected)
-    };
+};
         
 function getbbdata(optionselected) {
     
     // Grab values from the response json object to build the plots
     d3.json("samples.json").then((bbdata) => {
         console.log(bbdata);
-        var optionselected = bbdata.samples.filter(row => row.id === optionselected);
-        console.log(optionselected)
-        var values = optionselected[0].sample_values;
-        var OTU_ids = optionselected[0].otu_ids;
-        var OTU_labels = optionselected[0].otu_labels;
+        var filtereddata = bbdata.samples.filter(row => row.id === optionselected);
+        console.log(filtereddata)
+        var values = filtereddata[0].sample_values;
+        var OTU_ids = filtereddata[0].otu_ids;
+        var OTU_labels = filtereddata[0].otu_labels;
     
-        var optionselected = values.map((value, index) => {
+        var optionselected2 = values.map((value, index) => {
             return {
                 values: value,
                 OTU_ids: OTU_ids[index],
                 OTU_labels: OTU_labels[index]
             }
         });
-        console.log(optionselected);
+        console.log(optionselected2);
     
-        var sorted_values = optionselected.sort((a, b) => b.values - a.values);
+        var sorted_values = optionselected2.sort((a, b) => b.values - a.values);
         var top_desc_values = sorted_values.slice(0, 10).reverse()
     
         //Bar Graph
@@ -68,11 +74,11 @@ function getbbdata(optionselected) {
         Plotly.newPlot("bar", bar_data)
     
         //Bubble Chart
-        var bubble_values = optionselected.map(d => d.values);
-        var bubble_OTU_ids = optionselected.map(d => d.OTU_ids);
-        var bubble_OTU_labels = optionselected.map(d => d.OTU_labels);
+        var bubble_values = optionselected2.map(d => d.values);
+        var bubble_OTU_ids = optionselected2.map(d => d.OTU_ids);
+        var bubble_OTU_labels = optionselected2.map(d => d.OTU_labels);
     
-        var bubbletrace = {
+        var bubble_trace = {
             x: bubble_OTU_ids,
             y: bubble_values,
             text: bubble_OTU_labels,
@@ -83,7 +89,7 @@ function getbbdata(optionselected) {
                 }
             };
     
-        var bubble_data = [bubbletrace];
+        var bubble_data = [bubble_trace];
     
         var bubble_layout = {
             title: "Bubble Chart",
@@ -112,4 +118,3 @@ function getbbdata(optionselected) {
 
 };
 
-init();
